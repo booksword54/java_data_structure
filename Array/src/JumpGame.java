@@ -7,10 +7,10 @@ public class JumpGame {
         int n = nums.length;
         int max = 0;
         for (int i = 0; i < n; i++) {
-            if (i <= max) {
-                max = Math.max(max, i + nums[i]);
+            if (i <= max) { // 还在范围内，继续取能跳到的最远距离
+                max = Math.max(max, i + nums[i]); // 充当本次跳跃范围内，下一跳的最远距离
                 if (max >= n - 1) {
-                    return true;
+                    return true; // 超出了目标
                 }
             }
         }
