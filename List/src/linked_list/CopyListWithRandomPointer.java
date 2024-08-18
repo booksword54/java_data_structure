@@ -43,7 +43,7 @@ public class CopyListWithRandomPointer {
         if (head == null) {
             return null;
         }
-        // 复制next关系
+        // 复制一份新的链表
         // 新链表穿插到旧的链表。新节点在旧节点的下一个，newNode = node.next
         for (Node node = head; node != null; node = node.next.next) {
             Node newNode = new Node(node.val);
@@ -57,6 +57,7 @@ public class CopyListWithRandomPointer {
             newNode.random = (node.random != null ? node.random.next : null);
         }
         Node newHead = head.next;
+        // 复制next关系
         // 新链表节点从旧链表中间剔除出来，next指针串联
         for (Node node = head; node != null; node = node.next) {
             Node newNode = node.next;
