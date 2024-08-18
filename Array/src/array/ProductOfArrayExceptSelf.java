@@ -1,3 +1,5 @@
+package array;
+
 public class ProductOfArrayExceptSelf {
     // 除自身以外数组的乘积
     // 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。

@@ -1,3 +1,5 @@
+package array;
+
 public class MergeTwoSortedArray {
     // 合并两个有序数组
     // 给你两个按 非递减顺序 排列的整数数组 nums1 和 nums2，

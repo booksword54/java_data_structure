@@ -1,3 +1,5 @@
+package array;
+
 public class JumpGameII {
     // 跳跃游戏 II
     // 给定一个长度为 n 的 0 索引整数数组 nums。初始位置为 nums[0]。
