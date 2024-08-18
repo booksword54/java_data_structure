@@ -37,7 +37,7 @@ public class MergeTwoSortedLists {
             l1.next = mergeTwoLists(l1.next, l2); // 从剩余的元素中不断选择较小值。连接到链表尾端
             return l1;
         } else {
-            // 选择l2，l2.next就是合并链表的点尾部节的next节点，
+            // 选择l2作为尾部节点，l2.next就是合并链表的点尾部节的next节点，
             l2.next = mergeTwoLists(l1, l2.next); // 从剩余的元素中不断选择较小值。连接到链表尾端
             return l2;
         }
