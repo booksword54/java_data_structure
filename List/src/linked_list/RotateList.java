@@ -17,15 +17,15 @@ public class RotateList {
             len++;
             cur = cur.next;
         }
-        // 获取旋转点的位置
-        int index = k % len;
-        if (index == 0) { // 无需旋转
+        // 向右移动(旋转)几个位置
+        int count = k % len;
+        if (count == 0) { // 无需移动(旋转)
             return head;
         }
         // 整体翻转
         ListNode leftHead = reverseLinkedList(head);
         ListNode leftTail = leftHead;
-        for (int i = 0; i < index - 1; i++) {
+        for (int i = 0; i < count - 1; i++) {
             leftTail = leftTail.next;
         }
         ListNode rightHead = leftTail.next;
@@ -36,7 +36,7 @@ public class RotateList {
         ListNode newRightHead = reverseLinkedList(rightHead);
         // 拼接旋转后的链表
         ListNode newLeftTail = newLeftHead;
-        for (int i = 0; i < index - 1; i++) {
+        for (int i = 0; i < count - 1; i++) {
             newLeftTail = newLeftTail.next;
         }
         // 重建两链表的链接
@@ -56,5 +56,34 @@ public class RotateList {
             cur = next; // ③ 当前节点指向下一个节点
         }
         return pre;
+    }
+
+    // 闭合为环
+    public ListNode rotateRight2(ListNode head, int k) {
+        if (k == 0 || head == null || head.next == null) {
+            return head;
+        }
+        // 获取链表总长度
+        int n = 1;
+        ListNode cur = head;
+        while (cur.next != null) {
+            n++;
+            cur = cur.next;
+        }
+        // 获取旋转点的位置
+        int index = n - k % n;
+        if (index == n) {
+            return head; // 无需旋转
+        }
+        // 尾节点指针指向头节点
+        cur.next = head;
+        // 移动指针到旋转点之前的位置
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+        // 旋转点的位置
+        ListNode res = cur.next;
+        cur.next = null;
+        return res;
     }
 }
