@@ -26,10 +26,11 @@ public class BasicCalculator {
                 stack.addLast(sign); // 括号前的符号
                 res = 0; // 括号内的结果
                 sign = 1; // 括号内的符号
+                num = 0; // 括号内的数值
             } else if (c == ')') {
-                // 括号内的结果计算完毕
-                res += sign * num;
+                res += sign * num; // 括号内的结果
                 num = 0; // 括号后的操作数
+                // 以括号整体为操作数，和之前的操作数做运算
                 res *= stack.removeLast(); // 括号前的符号
                 res += stack.removeLast(); // 括号左边的操作数
             }
