@@ -1,3 +1,5 @@
+package data_structure;
+
 public class ListDemo {
     // 单向链表、双端链表、有序链表、双向链表。
     // 链表（Linked list）是一种常见的基础数据结构，是一种线性表，但是并不会按线性的顺序存储数据，而是在每一个节点里存到下一个节点的指针(Pointer)。每个节点包含任意的实例数据（data fields）和一或两个用来指向上一个/或下一个节点的位置的链接（"links"）
