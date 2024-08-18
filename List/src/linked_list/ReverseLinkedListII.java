@@ -55,7 +55,7 @@ public class ReverseLinkedListII {
         return dummy.next;
     }
 
-    // 反转链表
+    // 通过三个指针反转链表，头变尾，尾变头
     private void reverseLinkedList(ListNode head) {
         ListNode pre = null;
         ListNode cur = head;

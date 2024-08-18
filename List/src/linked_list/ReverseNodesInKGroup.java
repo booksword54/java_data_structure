@@ -40,16 +40,17 @@ public class ReverseNodesInKGroup {
         return dummy.next;
     }
 
-    // 反转链表，头变尾，尾变头
+    // 通过三个指针反转链表，头变尾，尾变头
     private void reverseLinkedList(ListNode head) {
         ListNode pre = null;
         ListNode cur = head;
         ListNode next = null;
         while (cur != null) {
-            next = cur.next;
-            cur.next = pre;
-            pre = cur;
-            cur = next;
+            next = cur.next; // 记录下一个要反转的位置，cur是本次反转要操作的节点
+            // 关键步骤：pre和cur之间的指针反转
+            cur.next = pre; // ① pre和cur之间的指针反转
+            pre = cur; // ② 前一个节点指向当前节点
+            cur = next; // ③ 当前节点指向下一个节点
         }
     }
 }
