@@ -16,10 +16,10 @@ public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
             indexMap.put(inorder[i], i);
         }
         // 递归构造根节点和左右子树，返回根节点
-        return helper(inorder, postorder, 0, n - 1, 0, n - 1);
+        return helper(postorder, inorder, 0, n - 1, 0, n - 1);
     }
 
-    private TreeNode helper(int[] inorder, int[] postorder, int postLeft, int postRight, int inLeft, int inRight) {
+    private TreeNode helper(int[] postorder, int[] inorder, int postLeft, int postRight, int inLeft, int inRight) {
         if (postLeft > postRight) { // 节点为空
             return null;
         }
