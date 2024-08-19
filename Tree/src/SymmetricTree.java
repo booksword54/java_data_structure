@@ -52,7 +52,7 @@ public class SymmetricTree {
             if (pNode == null || qNode == null) {
                 return false;
             }
-            if (p.val != q.val) {
+            if (pNode.val != qNode.val) {
                 return false;
             }
             // 对称位置的元素成对出现
@@ -90,7 +90,7 @@ public class SymmetricTree {
                 if (pNode == null || qNode == null) {
                     return false;
                 }
-                if (p.val != q.val) {
+                if (pNode.val != qNode.val) {
                     return false;
                 }
                 // 对称位置的元素成对出现
