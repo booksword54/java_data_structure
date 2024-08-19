@@ -7,6 +7,7 @@ public class MaximumDepthOfBinaryTree {
     // 叉树的最大深度
     // 给定一个二叉树 root ，返回其最大深度。
     // 二叉树的 最大深度 是指从根节点到最远叶子节点的最长路径上的节点数。
+
     // 递归
     public int maxDepth(TreeNode root) {
         if (root == null) {
@@ -29,9 +30,6 @@ public class MaximumDepthOfBinaryTree {
             int size = queue.size(); // 层序遍历
             for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
-                if (node == null) {
-                    continue;
-                }
                 if (node.left != null) {
                     queue.add(node.left);
                 }

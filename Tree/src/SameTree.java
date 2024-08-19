@@ -7,6 +7,7 @@ public class SameTree {
     // 相同的树
     // 给你两棵二叉树的根节点 p 和 q ，编写一个函数来检验这两棵树是否相同。
     // 如果两个树在结构上相同，并且节点具有相同的值，则认为它们是相同的。
+
     // 递归
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null && q == null) { // 同时为空，判断下一对
@@ -23,7 +24,7 @@ public class SameTree {
         return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 
-    // 迭代
+    // 迭代 BFS
     public boolean isSameTree2(TreeNode p, TreeNode q) {
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(p);
