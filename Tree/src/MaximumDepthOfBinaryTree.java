@@ -17,7 +17,7 @@ public class MaximumDepthOfBinaryTree {
         return Math.max(left, right) + 1;
     }
 
-    // 迭代
+    // 迭代(BFS)
     public int maxDepth2(TreeNode root) {
         if (root == null) {
             return 0;
@@ -26,7 +26,7 @@ public class MaximumDepthOfBinaryTree {
         queue.add(root);
         int ans = 0;
         while (!queue.isEmpty()) {
-            int size = queue.size();
+            int size = queue.size(); // 层序遍历
             for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
                 if (node == null) {
