@@ -21,20 +21,20 @@ public class InvertBinaryTree {
         return root;
     }
 
-    // 辅助栈 + 深度遍历(DFS)
+    // 深度遍历(DFS)
     public TreeNode invertTree2(TreeNode root) {
         if (root == null) {
             return null;
         }
-        Deque<TreeNode> stack = new ArrayDeque<>();
-        stack.push(root);
-        while (!stack.isEmpty()) {
-            TreeNode node = stack.pop(); // 深度遍历
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll(); // 深度遍历
             if (node.left != null) {
-                stack.add(node.left);
+                queue.add(node.left);
             }
             if (node.right != null) {
-                stack.add(node.right);
+                queue.add(node.right);
             }
             // 翻转操作，交换左右子节点，之后遍历的没一个节点都会执行子树的翻转，整体上实现了翻转树的效果
             TreeNode temp = node.left;
@@ -44,7 +44,7 @@ public class InvertBinaryTree {
         return root;
     }
 
-    // 辅助队列 + 广度遍历(BFS)
+    // 广度遍历(BFS)
     public TreeNode invertTree3(TreeNode root) {
         if (root == null) {
             return null;
