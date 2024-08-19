@@ -27,8 +27,37 @@ public class PathSum {
         return hasPathSum(node.left, targetSum) || hasPathSum(node.right, targetSum);
     }
 
+    //  迭代 DFS
+    public boolean hasPathSum2(TreeNode root, int target) {
+        if (root == null) {
+            return false;
+        }
+        Queue<TreeNode> nodeQueue = new LinkedList<>();
+        Queue<Integer> sumQueue = new LinkedList<>();
+        nodeQueue.add(root);
+        sumQueue.add(root.val);
+        while (!nodeQueue.isEmpty()) {
+            TreeNode node = nodeQueue.poll();
+            int sum = sumQueue.poll();
+            if (node.left == null && node.right == null) {
+                if (sum == target) {
+                    return true;
+                }
+                continue;
+            }
+            if (node.left != null) {
+                nodeQueue.add(node.left);
+                sumQueue.add(sum + node.left.val);
+            }
+            if (node.right != null) {
+                nodeQueue.add(node.right);
+                sumQueue.add(sum + node.right.val);
+            }
+        }
+        return false;
+    }
 
-    // BFS
+    // 迭代 BFS
     public boolean hasPathSum3(TreeNode root, int target) {
         if (root == null) {
             return false;
@@ -56,36 +85,6 @@ public class PathSum {
                     nodeQueue.add(node.right);
                     sumQueue.add(sum + node.right.val);
                 }
-            }
-        }
-        return false;
-    }
-
-    //  DFS
-    public boolean hasPathSum2(TreeNode root, int target) {
-        if (root == null) {
-            return false;
-        }
-        Queue<TreeNode> nodeQueue = new LinkedList<>();
-        Queue<Integer> sumQueue = new LinkedList<>();
-        nodeQueue.add(root);
-        sumQueue.add(root.val);
-        while (!nodeQueue.isEmpty()) {
-            TreeNode node = nodeQueue.poll();
-            int sum = sumQueue.poll();
-            if (node.left == null && node.right == null) {
-                if (sum == target) {
-                    return true;
-                }
-                continue;
-            }
-            if (node.left != null) {
-                nodeQueue.add(node.left);
-                sumQueue.add(sum + node.left.val);
-            }
-            if (node.right != null) {
-                nodeQueue.add(node.right);
-                sumQueue.add(sum + node.right.val);
             }
         }
         return false;
