@@ -361,8 +361,8 @@ class RedBlackNode<T extends Comparable<T>> {
 class BinarySearchTree implements Tree {
 
     @Override
-    public Node find(Node root, Integer data) {
-        Node current = root;
+    public DemoNode find(DemoNode root, Integer data) {
+        DemoNode current = root;
         while (current != null) {
             if (current.data > data) {
                 // 当前值比查找值大，搜索左子树
@@ -377,15 +377,15 @@ class BinarySearchTree implements Tree {
     }
 
     @Override
-    public boolean insert(Node root, Integer data) {
-        Node newNode = new Node(data);
+    public boolean insert(DemoNode root, Integer data) {
+        DemoNode newNode = new DemoNode(data);
         if (root == null) {
             // 当前树为空树，没有任何节点
             root = newNode;
             return true;
         }
-        Node current = root;
-        Node parentNode = null;
+        DemoNode current = root;
+        DemoNode parentNode = null;
         while (current != null) {
             parentNode = current;
             if (current.data > data) {
@@ -409,9 +409,9 @@ class BinarySearchTree implements Tree {
     }
 
     @Override
-    public boolean delete(Node root, Integer data) {
-        Node current = root;
-        Node parent = root;
+    public boolean delete(DemoNode root, Integer data) {
+        DemoNode current = root;
+        DemoNode parent = root;
         boolean isLeftChild = false;
         // 查找删除值，找不到直接返回false
         while (current.data != data) {
@@ -486,7 +486,7 @@ class BinarySearchTree implements Tree {
         // 那么其实我们可以不用真正的删除该节点，只需要在Node类中增加一个标识字段isDelete，
         // 当该字段为true时，表示该节点已经删除，反正没有删除。那么我们在做比如find()等操作的时候，
         // 要先判断isDelete字段是否为true。这样删除的节点并不会改变树的结构。
-        Node successor = getSuccessor(current);
+        DemoNode successor = getSuccessor(current);
         if (current == root) {
             root = successor;
         } else if (isLeftChild) {
@@ -498,10 +498,10 @@ class BinarySearchTree implements Tree {
         return false;
     }
 
-    private Node getSuccessor(Node delNode) {
-        Node successorParent = delNode;
-        Node successor = delNode;
-        Node current = delNode.rightChild;
+    private DemoNode getSuccessor(DemoNode delNode) {
+        DemoNode successorParent = delNode;
+        DemoNode successor = delNode;
+        DemoNode current = delNode.rightChild;
         while (current != null) {
             successorParent = successor;
             successor = current;
@@ -515,9 +515,9 @@ class BinarySearchTree implements Tree {
         return successor;
     }
 
-    public Node findMax(Node root) {
-        Node current = root;
-        Node maxNode = current;
+    public DemoNode findMax(DemoNode root) {
+        DemoNode current = root;
+        DemoNode maxNode = current;
         while (current != null) {
             maxNode = current;
             current = current.rightChild;
@@ -525,9 +525,9 @@ class BinarySearchTree implements Tree {
         return maxNode;
     }
 
-    public Node findMin(Node root) {
-        Node current = root;
-        Node minNode = current;
+    public DemoNode findMin(DemoNode root) {
+        DemoNode current = root;
+        DemoNode minNode = current;
         while (current != null) {
             minNode = current;
             current = current.leftChild;
@@ -536,23 +536,23 @@ class BinarySearchTree implements Tree {
     }
 }
 
-class Node {
+class DemoNode {
     Integer data; // 节点数据
-    Node leftChild; // 左子节点的引用
-    Node rightChild; // 右子节点的应用
+    DemoNode leftChild; // 左子节点的引用
+    DemoNode rightChild; // 右子节点的应用
 
-    public Node(Integer data) {
+    public DemoNode(Integer data) {
         this.data = data;
     }
 }
 
 interface Tree {
     // 查找节点
-    Node find(Node root, Integer data);
+    DemoNode find(DemoNode root, Integer data);
 
     // 插入新节点
-    boolean insert(Node root, Integer data);
+    boolean insert(DemoNode root, Integer data);
 
     // 删除节点
-    boolean delete(Node root, Integer data);
+    boolean delete(DemoNode root, Integer data);
 }
