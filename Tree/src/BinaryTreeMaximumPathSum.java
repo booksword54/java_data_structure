@@ -25,7 +25,7 @@ public class BinaryTreeMaximumPathSum {
 
         // ------------------------------- DFS的业务逻辑 -------------------------------
         int sum = node.val + leftHalf + rightHalf; // 当前节点为中心的路径和的最大值
-        max = Math.max(max, sum); // 比较每个节点为中心的路径和的最大值，因为会遍历完所有节点，最大路径和一定会比较出来的
+        max = Math.max(max, sum); // 比较每个节点为中心的路径和的最大值，因为会遍历完所有节点，不用考虑比较顺序，最大路径和一定会比较出来的
         // ------------------------------- DFS的业务逻辑 -------------------------------
 
         return node.val + Math.max(leftHalf, rightHalf); // 当前节点为头的半个路径和最大值
