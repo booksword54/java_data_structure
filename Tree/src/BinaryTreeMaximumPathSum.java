@@ -8,14 +8,14 @@ public class BinaryTreeMaximumPathSum {
 
     int max = Integer.MIN_VALUE;
 
-    // 递归
+    // 递归，返回值很重要
     public int maxPathSum(TreeNode root) {
         maxGain(root); // 递归本身是计算当前节点为首的最大半路径和（当前节点的值 + 左&右半路径和的较大者）
         // 递归过程中比较每个节点为中心的路径和的最大值（当前节点的值 + 左半路径最大和 + 右半最大路径和），递归的返回值对业务是有用的
         return max;
     }
 
-    // DFS的过程中不断统计最大路径和，递归的返回值对业务是有用的
+    // DFS的过程中不断统计最大路径和，递归的返回值对业务是有用的，返回值很重要
     private int maxGain(TreeNode node) {
         if (node == null) { // 递归终止条件：节点为空，不计算当前节点的最大路径和，节点为首的半路径的最大和是0
             return 0;
