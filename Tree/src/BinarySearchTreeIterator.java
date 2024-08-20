@@ -56,17 +56,18 @@ public class BinarySearchTreeIterator {
 
         // 获取二叉搜索树的一个元素
         public int next() {
+            // 其实是一次中序遍历
             while (cur != null) {
                 stack.push(cur);
-                cur = cur.left;
+                cur = cur.left; // 左
             }
-            cur = stack.pop();
+            cur = stack.pop(); // 中
             int res = cur.val;
-            cur = cur.right;
+            cur = cur.right; // 右
             return res;
         }
 
-        // cur不是空或者stack还有元素
+        // cur不是空(右边还有)或者stack还有元素(中间还有)
         public boolean hasNext() {
             return cur != null || !stack.isEmpty();
         }
