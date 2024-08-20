@@ -10,15 +10,12 @@ public class BinaryTreeMaximumPathSum {
 
     // 递归
     public int maxPathSum(TreeNode root) {
-        // DFS遍历整棵树，比较每个节点为中心的路径和的最大值
-        // （当前节点的值 + 左半路径最大和 + 右半最大路径和）
-        // maxGain本身返回以当前节点为头节点的一半路径的最大和
-        // （当前节点的值 + 左&右半路径和的较大者）
-        maxGain(root);
+        maxGain(root); // 递归本身是计算当前节点为首的最大半路径和（当前节点的值 + 左&右半路径和的较大者）
+        // 递归过程中比较每个节点为中心的路径和的最大值（当前节点的值 + 左半路径最大和 + 右半最大路径和），递归的返回值对业务是有用的
         return max;
     }
 
-    // DFS的过程中不断统计最大路径和
+    // DFS的过程中不断统计最大路径和，递归的返回值对业务是有用的
     private int maxGain(TreeNode node) {
         if (node == null) { // 递归终止条件：节点为空，不计算当前节点的最大路径和，节点为首的半路径的最大和是0
             return 0;
@@ -28,7 +25,7 @@ public class BinaryTreeMaximumPathSum {
 
         // ------------------------------- DFS的业务逻辑 -------------------------------
         int sum = node.val + leftHalf + rightHalf; // 当前节点为中心的路径和的最大值
-        max = Math.max(max, sum); // 比较每个节点为中心的路径和的最大值
+        max = Math.max(max, sum); // 比较每个节点为中心的路径和的最大值，因为会遍历完所有节点，最大路径和一定会比较出来的
         // ------------------------------- DFS的业务逻辑 -------------------------------
 
         return node.val + Math.max(leftHalf, rightHalf); // 当前节点为头的半个路径和最大值
