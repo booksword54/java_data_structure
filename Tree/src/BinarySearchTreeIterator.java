@@ -67,7 +67,7 @@ public class BinarySearchTreeIterator {
             return res;
         }
 
-        // cur不是空(右边还有)或者stack还有元素(中间还有)
+        // cur不是空(身为根节点，右边还有)或者stack还有元素(身为左子节点，中间还有)
         public boolean hasNext() {
             return cur != null || !stack.isEmpty();
         }
