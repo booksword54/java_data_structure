@@ -43,8 +43,9 @@ public class MinimumAbsoluteDifferenceInBST {
         int res = Integer.MAX_VALUE;
         TreeNode pre = null;
         TreeNode cur = root;
+        // 中序遍历二叉树，访问节点不为空，或者栈中还有元素，就能继续遍历
         while (cur != null || !stack.isEmpty()) {
-            while (cur != null) { // 获取最左节点
+            while (cur != null) { // 获取最左节点（最优先访问）
                 stack.push(cur); // 左边入栈，先访问节点的左边元素
                 cur = cur.left;
             }
