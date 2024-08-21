@@ -54,16 +54,13 @@ public class KthSmallestElementInBST {
         if (node == null) {
             return;
         }
-        if (k == 0) {
-            return;// 已经获取到了结果
-        }
         dfs(node.left);
         if (k == 0) {
-            return; // 已经获取到了结果
+            return; // 已经获取到了结果，不再操作，直接向上级返回，直到返回根节点退出dfs
         }
         if (--k == 0) {
             res = node.val;
-            return; // 已经获取到了结果
+            return; // 已经获取到了结果，不再进入后续的右边遍历
         }
         dfs(node.right);
     }
