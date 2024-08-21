@@ -5,6 +5,8 @@ public class LowestCommonAncestorOfABinaryTree {
     // 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
     // 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，
     // 最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+
+    // 逻辑就是一直向上级返回查找的结果，到了根节点统计出来公共祖先是哪个节点
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) { // 递归终止条件：向上级返回 null
             return null;
