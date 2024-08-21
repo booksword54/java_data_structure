@@ -45,16 +45,18 @@ public class MinimumAbsoluteDifferenceInBST {
         TreeNode cur = root;
         // 中序遍历二叉树，访问节点不为空，或者栈中还有元素，就能继续遍历
         while (cur != null || !stack.isEmpty()) {
-            while (cur != null) { // 获取最左节点（最优先访问）
-                stack.push(cur); // 左边入栈，先访问节点的左边元素
+            // 首先 先中后左节点 入栈，实现先左后中的顺序遍历
+            while (cur != null) { // 一直到最左节点（树最优先访问的节点）
+                stack.push(cur);
                 cur = cur.left;
             }
-            cur = stack.pop(); // 弹出栈，左-当前-右 的顺序
+            cur = stack.pop(); // 弹出栈 左-中-右的顺序
             if (pre != null) {
                 res = Math.min(res, cur.val - pre.val);
             }
             pre = cur; // 当前节点(中间)已经访问过
-            cur = cur.right; // 下次右边入栈，访问右边
+            // 当前右节点访问的优先级比上级的中节点高，此处入栈是插队(开始访问右边)，实现左中右(上级左)，再上级中(如果有)遍历的顺序
+            cur = cur.right; // 下次右边入栈，开始访问右边
         }
         return res;
     }
