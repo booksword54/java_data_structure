@@ -19,7 +19,7 @@ public class NumberOfIslands {
         int res = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                // 岛屿边界，开始遍历并染色
+                // 找到岛屿边界，深度遍历连通所有岛屿节点并染色
                 if (grid[i][j] == '1') {
                     res++;
                     dfs(grid, i, j, m, n);
@@ -30,8 +30,9 @@ public class NumberOfIslands {
     }
 
     private void dfs(char[][] grid, int i, int j, int m, int n) {
-        grid[i][j] = '0'; // 染色，证明与遍历到的岛屿边界连通，属于一个小岛
-        for (int[] dir : dirs) { // 四个方向连通所有岛屿节点并染色
+        grid[i][j] = '0'; // 染色，说明与遍历到的岛屿边界连通，属于一个小岛
+        // 四个方向"蔓"延所有岛屿节点并染色
+        for (int[] dir : dirs) {
             int ni = i + dir[0];
             int nj = j + dir[1];
             if (ni >= 0 && ni < m && nj >= 0 && nj < n && grid[ni][nj] == '1') {
@@ -50,41 +51,33 @@ public class NumberOfIslands {
         int res = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
+                // 找到岛屿边界，广度遍历连通所有岛屿节点并染色
                 if (grid[i][j] == '1') {
                     res++;
-                    // 找到岛屿边界
-                    grid[i][j] = '0';
-                    // 层序遍历连通所有岛屿节点并染色
-                    Queue<Integer> border = new LinkedList<>();
-                    border.add(i * cols + j); // 岛屿位置id
-                    while (!border.isEmpty()) {
-                        int size = border.size();
-                        for (int k = 0; k < size; k++) {
-                            int land = border.remove();
-                            int row = land / cols;
-                            int col = land % cols;
-                            // 四个方向蔓延
-                            if (row - 1 >= 0 && grid[row - 1][col] == '1') {
-                                border.add((row - 1) * cols + col);
-                                grid[row - 1][col] = '0';
-                            }
-                            if (row + 1 < rows && grid[row + 1][col] == '1') {
-                                border.add((row + 1) * cols + col);
-                                grid[row + 1][col] = '0';
-                            }
-                            if (col - 1 >= 0 && grid[row][col - 1] == '1') {
-                                border.add(row * cols + (col - 1));
-                                grid[row][col - 1] = '0';
-                            }
-                            if (col + 1 < cols && grid[row][col + 1] == '1') {
-                                border.add(row * cols + (col + 1));
-                                grid[row][col + 1] = '0';
-                            }
-                        }
-                    }
+                    bfs(grid, i, j, rows, cols);
                 }
             }
         }
         return res;
+    }
+
+    private void bfs(char[][] grid, int i, int j, int rows, int cols) {
+        Queue<Integer> border = new LinkedList<>();
+        border.add(i * cols + j); // 岛屿位置id
+        grid[i][j] = '0';
+        while (!border.isEmpty()) {
+            int land = border.remove();
+            int r = land / cols;
+            int c = land % cols;
+            // 四个方向"漫"延所有连通岛屿节点
+            for (int[] dir : dirs) {
+                int nr = r + dir[0];
+                int nc = c + dir[1];
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == '1') {
+                    border.add(nr * cols + nc);
+                    grid[nr][nc] = 'O';
+                }
+            }
+        }
     }
 }
