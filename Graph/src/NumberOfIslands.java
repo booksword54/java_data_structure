@@ -19,7 +19,7 @@ public class NumberOfIslands {
         int res = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                // 岛屿边界，开始遍历染色
+                // 岛屿边界，开始遍历并染色
                 if (grid[i][j] == '1') {
                     res++;
                     dfs(grid, i, j, m, n);
@@ -31,7 +31,7 @@ public class NumberOfIslands {
 
     private void dfs(char[][] grid, int i, int j, int m, int n) {
         grid[i][j] = '0'; // 染色，证明与遍历到的岛屿边界连通，属于一个小岛
-        for (int[] dir : dirs) {
+        for (int[] dir : dirs) { // 四个方向连通所有岛屿节点并染色
             int ni = i + dir[0];
             int nj = j + dir[1];
             if (ni >= 0 && ni < m && nj >= 0 && nj < n && grid[ni][nj] == '1') {
@@ -52,15 +52,18 @@ public class NumberOfIslands {
             for (int j = 0; j < cols; j++) {
                 if (grid[i][j] == '1') {
                     res++;
+                    // 找到岛屿边界
                     grid[i][j] = '0';
+                    // 层序遍历连通所有岛屿节点并染色
                     Queue<Integer> border = new LinkedList<>();
-                    border.add(i * cols + j);
+                    border.add(i * cols + j); // 岛屿位置id
                     while (!border.isEmpty()) {
                         int size = border.size();
                         for (int k = 0; k < size; k++) {
                             int land = border.remove();
                             int row = land / cols;
                             int col = land % cols;
+                            // 四个方向蔓延
                             if (row - 1 >= 0 && grid[row - 1][col] == '1') {
                                 border.add((row - 1) * cols + col);
                                 grid[row - 1][col] = '0';
