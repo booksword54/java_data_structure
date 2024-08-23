@@ -13,7 +13,7 @@ public class EvaluateDivision {
         int nVars = 0;
         Map<String, Integer> variables = new HashMap<>();
         int n = equations.size();
-        // 记录变量及其索引
+        // 记录变量及其标识
         for (List<String> equation : equations) {
             if (!variables.containsKey(equation.get(0))) {
                 variables.put(equation.get(0), nVars++);
@@ -31,7 +31,7 @@ public class EvaluateDivision {
         for (int i = 0; i < n; i++) {
             int va = variables.get(equations.get(i).get(0));
             int vb = variables.get(equations.get(i).get(1));
-            // 通过val连通两个数，更新子节点到父节点的权重
+            // 通过val连通两个数，并更新到父节点的权重
             union(parent, weight, va, vb, values[i]);
         }
         // 处理查询
@@ -71,4 +71,139 @@ public class EvaluateDivision {
         }
         return parent[x];
     }
+
+    // 广度优先搜索
+    public double[] calcEquation2(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        int nVars = 0;
+        Map<String, Integer> variables = new HashMap<>();
+        int n = equations.size();
+        // 记录变量及其标识
+        for (List<String> equation : equations) {
+            if (!variables.containsKey(equation.get(0))) {
+                variables.put(equation.get(0), nVars++);
+            }
+            if (!variables.containsKey(equation.get(1))) {
+                variables.put(equation.get(1), nVars++);
+            }
+        }
+        // 每个节点的连通节点集合
+        List<Pair>[] edges = new List[nVars];
+        for (int i = 0; i < nVars; i++) {
+            edges[i] = new ArrayList<>();
+        }
+        // 每对元素互相连通，保存到达彼此的权重(相除的结果)
+        for (int i = 0; i < n; i++) {
+            int va = variables.get(equations.get(i).get(0));
+            int vb = variables.get(equations.get(i).get(1));
+            edges[va].add(new Pair(vb, values[i]));
+            edges[vb].add(new Pair(va, 1.0 / values[i]));
+        }
+        // 开始计算
+        int queriesSize = queries.size();
+        double[] res = new double[queriesSize];
+        for (int i = 0; i < queriesSize; i++) {
+            List<String> query = queries.get(i); // 运算
+            double result = -1.0;
+            // 操作数都存在
+            if (variables.containsKey(query.get(0)) && variables.containsKey(query.get(1))) {
+                int ia = variables.get(query.get(0));
+                int ib = variables.get(query.get(1));
+                // 是相同的操作数
+                if (ia == ib) {
+                    res[i] = 1.0;
+                    continue;
+                }
+                // 广度优先搜索，寻找操作数之间的权重
+                Queue<Integer> points = new LinkedList<>();
+                points.add(ia); // 从 ia 寻找 ib
+                double[] ratios = new double[nVars];
+                Arrays.fill(ratios, -1.0); // 默认操作数之间不能相除，也表示没有访问过
+                ratios[ia] = 1.0; // 与自己相除的结果
+                // 层序遍历，记录与每一层相除的结果(基于上一层的结果)
+                while (!points.isEmpty() && ratios[ib] == -1) {
+                    int x = points.poll();
+                    for (Pair pair : edges[x]) { // 遍历连通节点集合
+                        int y = pair.index;  // 连通的数
+                        double val = pair.value; // 相除的结果
+                        if (ratios[y] == -1) {
+                            // 统计 ia / y 的结果
+                            ratios[y] = ratios[x] * val;
+                            points.add(y);
+                        }
+                    }
+                }
+                // ia / ib 的结果，如果还是-1，证明层序遍历没访问到，两者没连通，不能相除
+                result = ratios[ib];
+            }
+            res[i] = result;
+        }
+        return res;
+    }
+
+    // Floyd 算法
+    public double[] calcEquation3(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        int nVars = 0;
+        Map<String, Integer> variables = new HashMap<>();
+        int n = equations.size();
+        // 记录变量及其标识
+        for (List<String> equation : equations) {
+            if (!variables.containsKey(equation.get(0))) {
+                variables.put(equation.get(0), nVars++);
+            }
+            if (!variables.containsKey(equation.get(1))) {
+                variables.put(equation.get(1), nVars++);
+            }
+        }
+        // 用图记录双向的相除结果
+        double[][] graph = new double[nVars][nVars];
+        for (int i = 0; i < nVars; i++) {
+            Arrays.fill(graph[i], -1.0); // 默认与所有的数相除的结果都是 -1
+        }
+        // 记录双向的相除结果
+        for (int i = 0; i < n; i++) {
+            int va = variables.get(equations.get(i).get(0));
+            int vb = variables.get(equations.get(i).get(1));
+            graph[va][vb] = values[i];
+            graph[vb][va] = 1.0 / values[i];
+        }
+        // 除法的结合律与传递性，连通能够相除的操作数
+        for (int i = 0; i < nVars; i++) {
+            for (int j = 0; j < nVars; j++) {
+                for (int k = 0; k < nVars; k++) {
+                    if (graph[i][j] != -1.0 && graph[j][k] != -1.0) {
+                        graph[i][k] = graph[i][j] * graph[j][k];
+                    }
+                }
+            }
+        }
+        // 到这里已经计算了所有能够相除的操作之间的结果，记录在图里面
+        // 遍历图，获取两个操作数相除的运算的结果
+        int queriesSize = queries.size();
+        double[] res = new double[queriesSize];
+        for (int i = 0; i < queriesSize; i++) {
+            List<String> query = queries.get(i);
+            double result = -1.0;
+            // 操作数存在
+            if (variables.containsKey(query.get(0)) && variables.containsKey(query.get(1))) {
+                int ia = variables.get(query.get(0));
+                int ib = variables.get(query.get(1));
+                if (graph[ia][ib] != -1) { // 可以相除，返回结果
+                    result = graph[ia][ib];
+                }
+            }
+            // 两数相除的结果
+            res[i] = result;
+        }
+        return res;
+    }
 }
+
+class Pair {
+    int index; // 元素的标识
+    double value; // 到达父节点的权重
+    Pair(int index, double value) {
+        this.index = index;
+        this.value = value;
+    }
+}
+
