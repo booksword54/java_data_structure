@@ -10,8 +10,8 @@ public class Trie {
     // - boolean search(String word) 如果字符串 word 在前缀树中，返回 true（即，在检索之前已经插入）；否则，返回 false 。
     // - boolean startsWith(String prefix) 如果之前已经插入的字符串 word 的前缀之一为 prefix ，返回 true ；否则，返回 false 。
 
-    private Trie[] children; // 分支
-    private boolean isEnd; // 是一个单词的末尾
+    public Trie[] children; // 分支
+    public boolean isEnd; // 是一个单词的末尾
 
     public Trie() {
         children = new Trie[26];
