@@ -13,31 +13,37 @@ public class MinimumGeneticMutation {
 
     // 图 + BFS
     public int minMutation(String startGene, String endGene, String[] bank) {
+        // 无需转换
         if (startGene.equals(endGene)) {
             return 0;
         }
         int n = bank.length;
-        int startGeneIdx = n;
         int endGeneIdx = -1;
+        // 寻找末尾基因在基因库中的位置
         for (int i = 0; i < n; i++) {
             if (endGene.equals(bank[i])) {
                 endGeneIdx = i;
                 break;
             }
         }
+        // 末尾基因在基因库中不存在
         if (endGeneIdx == -1) {
             return -1;
         }
-        List<Integer>[] graph = new List[n + 1];
+        // 图数据结构，记录基因及其邻接基因
+        List<Integer>[] graph = new List[n + 1]; // 按照基因中的位置存储基因的邻接基因，起始基因占据特殊位置 n
         for (int i = 0; i < n + 1; i++) {
             graph[i] = new ArrayList<>();
         }
+        // 记录起始基因的邻接基因
+        int startGeneIdx = n; // 起始基因在图中占据特殊位置 n
         for (int i = 0; i < n; i++) {
-            if (isNeighbor(bank[i], startGene)) {
+            if (isNeighbor(startGene, bank[i])) {
                 graph[i].add(startGeneIdx);
                 graph[startGeneIdx].add(i);
             }
         }
+        // 记录基因库中的基因邻接关系
         for (int i = 0; i < n - 1; i++) {
             for (int j = i + 1; j < n; j++) {
                 if (isNeighbor(bank[i], bank[j])) {
@@ -46,31 +52,45 @@ public class MinimumGeneticMutation {
                 }
             }
         }
+        // 起始基因转换成每个基因的最小转换次数
         int[] res = new int[n + 1];
+        // 是否被转换过，因为是层序遍历，所以之前的转换所需步骤更少
         boolean[] visit = new boolean[n + 1];
+        // 层序遍历的队列，从终点基因开始，一层层的遍历邻接基因直到访问到起点基因
         Queue<Integer> curLevel = new LinkedList<>();
         curLevel.add(endGeneIdx);
         visit[endGeneIdx] = true;
+        // 从终点基因，层序遍历起点基因
         while (!curLevel.isEmpty()) {
+            // 下一层的队列
             Queue<Integer> nextLevel = new LinkedList<>();
+            // 遍历当前队列的所有基因
             for (Integer geneIdx : curLevel) {
+                // 遍历当前队列的所有邻接基因
                 for (Integer nextGeneIdx : graph[geneIdx]) {
+                    // 之前转换过，存在最小的转换次数，不再进行转换
                     if (visit[nextGeneIdx]) {
                         continue;
                     }
+                    // 转换成邻接基因，在转换成当前基因的步骤数基础的上加一
                     res[nextGeneIdx] = res[geneIdx] + 1;
+                    // 邻接基因就是起始基因
                     if (nextGeneIdx == startGeneIdx) {
                         return res[nextGeneIdx];
                     }
+                    // 加入下一层遍历，继续寻找其邻接基因
                     nextLevel.add(nextGeneIdx);
+                    // 邻接基因已经被转换过
                     visit[nextGeneIdx] = true;
                 }
             }
+            // 遍历下一层的邻接基因
             curLevel = nextLevel;
         }
         return -1;
     }
 
+    // 判断两基因是否邻接
     private boolean isNeighbor(String s1, String s2) {
         int diff = 0;
         for (int i = 0; i < 8; i++) {
@@ -99,7 +119,7 @@ public class MinimumGeneticMutation {
         // 层序遍历，每个字符突变形成新基因，加入队列，访问下层...
         Queue<String> curLevel = new LinkedList<>();
         curLevel.add(startGene); // 起点节点加入当前层
-        visited.add(startGene); // 起点节点已经被判断过
+        visited.add(startGene); // 起点节点已经被转换过
 
         int step = 0; // 基因突变次数
         while (!curLevel.isEmpty()) {
@@ -230,7 +250,6 @@ public class MinimumGeneticMutation {
     }
 
     static char[] keys = new char[]{'A', 'G', 'C', 'T'};
-    String START_GENE, TARGET_GENE;
 
     public int minMutation3(String startGene, String endGene, String[] bank) {
         Set<String> bankSet = new HashSet<>(Arrays.asList(bank));
