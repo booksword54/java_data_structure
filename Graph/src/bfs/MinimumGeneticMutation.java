@@ -13,13 +13,20 @@ public class MinimumGeneticMutation {
 
     // 图 + BFS
     public int minMutation(String startGene, String endGene, String[] bank) {
+        if (startGene == null || endGene == null) {
+            return -1;
+        }
         // 无需转换
         if (startGene.equals(endGene)) {
             return 0;
         }
         int n = bank.length;
-        int endGeneIdx = -1;
+        // 基因库没有基因，无法转换
+        if (n == 0) {
+            return -1;
+        }
         // 寻找末尾基因在基因库中的位置
+        int endGeneIdx = -1;
         for (int i = 0; i < n; i++) {
             if (endGene.equals(bank[i])) {
                 endGeneIdx = i;
@@ -39,8 +46,8 @@ public class MinimumGeneticMutation {
         int startGeneIdx = n; // 起始基因在图中占据特殊位置 n
         for (int i = 0; i < n; i++) {
             if (isNeighbor(startGene, bank[i])) {
-                graph[i].add(startGeneIdx);
                 graph[startGeneIdx].add(i);
+                graph[i].add(startGeneIdx);
             }
         }
         // 记录基因库中的基因邻接关系
