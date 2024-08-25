@@ -8,10 +8,10 @@ class WordDictionary {
     // - void addWord(word) 将 word 添加到数据结构中，之后可以对它进行匹配
     // - bool search(word) 如果数据结构中存在字符串与 word 匹配，则返回 true ；否则，返回  false 。word 中可能包含一些 '.' ，每个 . 都可以表示任何一个字母。
 
-    private PrefixTree root;
+    private Trie root;
 
     public WordDictionary() {
-        root = new PrefixTree();
+        root = new Trie();
     }
 
     public void addWord(String word) {
@@ -22,20 +22,20 @@ class WordDictionary {
         return dfs(word, 0, root);
     }
 
-    private boolean dfs(String word, int index, PrefixTree node) {
+    private boolean dfs(String word, int index, Trie node) {
         if (index == word.length()) {
             return node.isEnd;
         }
         char ch = word.charAt(index);
         if (Character.isLetter(ch)) {
             int childIdx = ch - 'a';
-            PrefixTree child = node.children[childIdx];
+            Trie child = node.children[childIdx];
             if (child != null && dfs(word, index + 1, child)) {
                 return true;
             }
         } else if (ch == '.') {
             for (int i = 0; i < 26; i++) { // 匹配任意一个字符
-                PrefixTree child = node.children[i];
+                Trie child = node.children[i];
                 if (child != null && dfs(word, index + 1, child)) {
                     return true;
                 }
