@@ -10,26 +10,29 @@ public class Trie {
     // - boolean search(String word) 如果字符串 word 在前缀树中，返回 true（即，在检索之前已经插入）；否则，返回 false 。
     // - boolean startsWith(String prefix) 如果之前已经插入的字符串 word 的前缀之一为 prefix ，返回 true ；否则，返回 false 。
 
+    public String word;
     public Trie[] children; // 分支
     public boolean isEnd; // 是一个单词的末尾
 
     public Trie() {
+        word = "";
         children = new Trie[26];
         isEnd = false;
     }
 
     // 新增单词
     public void insert(String word) {
-        Trie node = this;
+        Trie cur = this;
         for (int i = 0; i < word.length(); i++) {
             char ch = word.charAt(i);
             int index = ch - 'a';
-            if (node.children[index] == null) {
-                node.children[index] = new Trie();
+            if (cur.children[index] == null) {
+                cur.children[index] = new Trie();
             }
-            node = node.children[index];
+            cur = cur.children[index];
         }
-        node.isEnd = true;
+        cur.word = word;
+        cur.isEnd = true;
     }
 
     public boolean search(String word) {
@@ -43,16 +46,16 @@ public class Trie {
 
     // 按照前缀搜索，返回搜索到的前缀所在的最后位置
     private Trie searchPrefix(String prefix) {
-        Trie node = this;
+        Trie cur = this;
         for (int i = 0; i < prefix.length(); i++) {
             char ch = prefix.charAt(i);
             int index = ch - 'a';
-            if (node.children[index] == null) {
+            if (cur.children[index] == null) {
                 return null;
             }
-            node = node.children[index];
+            cur = cur.children[index];
         }
-        return node;
+        return cur;
     }
 
 }
