@@ -12,15 +12,16 @@ public class PartitionList {
         ListNode largeDummy = new ListNode(0);
         ListNode small = smallDummy;
         ListNode large = largeDummy;
-        while (head != null) {
-            if (head.val < x) {
-                small.next = head;
+        ListNode cur = head;
+        while (cur != null) {
+            if (cur.val < x) {
+                small.next = cur;
                 small = small.next;
             } else {
-                large.next = head;
+                large.next = cur;
                 large = large.next;
             }
-            head = head.next;
+            cur = cur.next;
         }
         large.next = null; // 断开原有链接
         small.next = largeDummy.next; // 拼接两个链表
